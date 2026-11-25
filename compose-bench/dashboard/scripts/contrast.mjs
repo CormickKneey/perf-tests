@@ -5,7 +5,7 @@
 // text element is below 4.5:1 (normal) or 3:1 (large: >= 24px, or >= 18.66px
 // bold). Also checks that focus outlines are visible when tabbing.
 import { spawn } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -35,8 +35,8 @@ try {
     const page = await browser.newPage();
     // Same keys as src/prefs.tsx.
     await page.evaluateOnNewDocument((t, l) => {
-      localStorage.setItem("d7y-ci-infra.theme", t);
-      localStorage.setItem("d7y-ci-infra.lang", l);
+      localStorage.setItem("compose-bench.theme", t);
+      localStorage.setItem("compose-bench.lang", l);
     }, theme, lang);
     await page.setViewport({ width, height: 900 });
     for (const h of hashes) {
@@ -154,6 +154,7 @@ const summary = {
   focus_invisible: focusInvisible,
   failures,
 };
+mkdirSync(join(root, "review"), { recursive: true });
 writeFileSync(join(root, "review", "contrast-report.json"), JSON.stringify(summary, null, 2));
 console.log(JSON.stringify({ ...summary, failures: failures.slice(0, 40) }, null, 2));
 process.exit(failures.length ? 1 : 0);

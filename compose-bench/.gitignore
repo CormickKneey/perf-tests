@@ -6,6 +6,7 @@ dashboard/node_modules/
 dashboard/dist/
 dashboard/*.tsbuildinfo
 dashboard/public/data/
+dashboard/review/
 results/*.db
 scripts/__pycache__/
 .env
