@@ -1,0 +1,5 @@
+CHANGELOG.md
+compose-bench/results/**
+compose-bench/dashboard/dist/**
+compose-bench/dashboard/node_modules/**
+compose-bench/dashboard/public/data/**

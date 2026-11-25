@@ -8,3 +8,7 @@ docker run --rm \
     ${MARKDOWNLINT_IMAGE} \
     -c "${LINT_DIR}/.markdownlint.yml" /data/**/*.md \
     -i "${LINT_DIR}/CHANGELOG.md" \
+    -i "${LINT_DIR}/compose-bench/results" \
+    -i "${LINT_DIR}/compose-bench/dashboard/dist" \
+    -i "${LINT_DIR}/compose-bench/dashboard/node_modules" \
+    -i "${LINT_DIR}/compose-bench/dashboard/public/data"
