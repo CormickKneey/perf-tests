@@ -30,9 +30,21 @@ Run the commands above from this `compose-bench/` directory. Exit codes: `0` pas
 | `cmd/dfbench`, `pkg/` | Go CLI and libraries; compose images install the binary as `dfbench` |
 | `schemas/` | JSON schemas of the result documents |
 | `docs/compose.md` | Design notes and verified upstream facts |
+| `docs/results-store.md` | SQLite ingest and optional Supabase publish |
+| `results/<run>/` | Local runs; this tree includes a few published sample documents only |
+| `schemas/sql/`, `supabase/migrations/` | SQLite + Postgres schema for the results store |
+| `scripts/publish-results.sh` | Ingest a run into SQLite; upload to Supabase when secrets are set |
+
+After `smoke`, `run` or `compare`, `compose-bench.sh` calls
+`scripts/publish-results.sh` on the new `results/<run-id>/`. That writes
+`results/dfperf.db` and, if `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`
+are set, upserts the same row to Supabase. A publish failure is logged and
+does not change the benchmark exit code. Never put a `service_role` key in
+the repository. See [docs/results-store.md](docs/results-store.md).
 
 Results from macOS (OrbStack / Docker Desktop) are marked **non-baseline**;
-formal baselines need a fixed Linux host.
+formal baselines need a fixed Linux host. The sample documents under
+`results/` came from OrbStack and are for schema demos only.
 
 The Go module path is `github.com/dragonflyoss/perf-tests/compose-bench`.
 It is separate from the root `github.com/dragonflyoss/perf-tests` module so

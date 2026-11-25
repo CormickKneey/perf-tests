@@ -1,0 +1,79 @@
+{
+  "schema": "dfperf/v1",
+  "generated_at": "2026-11-21T03:00:15.177752Z",
+  "runs": [
+    {
+      "id": "20261121t025924cae6",
+      "mode": "smoke",
+      "profile": "file-3peers",
+      "verdict": "PASS",
+      "exit_code": 0,
+      "started_at": "2026-11-21T02:59:24.530176Z",
+      "finished_at": "2026-11-21T03:00:15.177752Z",
+      "non_baseline": true,
+      "classification": "orbstack",
+      "baseline": "dragonflyoss/scheduler:v2.5.4 [v2.5.0 (5ace19f)] + dragonflyoss/client:v1.5.14 [dfget 1.5.14 (8887c145f, 2026-11-13)]",
+      "blocks": 1,
+      "has_report": true
+    },
+    {
+      "id": "20261121t02532701c3",
+      "mode": "compare",
+      "profile": "file-3peers",
+      "verdict": "INCONCLUSIVE",
+      "exit_code": 4,
+      "started_at": "2026-11-21T02:53:27.718316Z",
+      "finished_at": "2026-11-21T02:59:01.592896Z",
+      "non_baseline": true,
+      "classification": "orbstack",
+      "baseline": "dragonflyoss/scheduler:v2.5.4 [v2.5.0 (5ace19f)] + dragonflyoss/client:v1.5.14 [dfget 1.5.14 (8887c145f, 2026-11-13)]",
+      "candidate": "dragonflyoss/scheduler:v2.5.4 [v2.5.0 (5ace19f)] + dragonflyoss/client:v1.5.14 [dfget 1.5.14 (8887c145f, 2026-11-13)]",
+      "blocks": 8,
+      "has_report": true
+    },
+    {
+      "id": "20261121t024049aeba",
+      "mode": "smoke",
+      "profile": "file-3peers",
+      "verdict": "INVALID",
+      "exit_code": 3,
+      "started_at": "2026-11-21T02:40:49.750975Z",
+      "finished_at": "2026-11-21T02:42:14.170567Z",
+      "non_baseline": true,
+      "classification": "orbstack",
+      "baseline": "dragonflyoss/scheduler:v2.5.4 [v2.5.0 (5ace19f)] + dragonflyoss/client:v1.5.14 [dfget 1.5.14 (8887c145f, 2026-11-13)]",
+      "overlays": [
+        "broken-seed"
+      ],
+      "blocks": 1,
+      "reasons": [
+        "aborted after block 01-baseline-b1 (invalid)",
+        "block 01-baseline-b1 is invalid: seed-announced: after 16 attempts: client went back-to-source (metric 4194304 bytes, origin 4194304 bytes): seed peer not announced or not used",
+        "no successful measured samples"
+      ],
+      "has_report": true
+    },
+    {
+      "id": "20261121t024236703f",
+      "mode": "smoke",
+      "profile": "file-3peers",
+      "verdict": "INVALID",
+      "exit_code": 3,
+      "started_at": "2026-11-21T02:42:36.476455Z",
+      "finished_at": "2026-11-21T02:43:00.691342Z",
+      "non_baseline": true,
+      "classification": "orbstack",
+      "baseline": "dragonflyoss/scheduler:v2.5.4 [v2.5.0 (5ace19f)] + dragonflyoss/client:v1.5.14 [dfget 1.5.14 (8887c145f, 2026-11-13)]",
+      "overlays": [
+        "seed-wrong-scheduler"
+      ],
+      "blocks": 1,
+      "reasons": [
+        "aborted after block 01-baseline-b1 (infra-error)",
+        "block 01-baseline-b1 is infra-error: compose up --wait failed (exit 1 <nil>), see logs/up.log and logs/compose.log",
+        "no successful measured samples"
+      ],
+      "has_report": true
+    }
+  ]
+}

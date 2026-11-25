@@ -1,0 +1,65 @@
+{
+  "checks": [
+    {
+      "name": "docker-engine",
+      "ok": true,
+      "fatal": true,
+      "detail": "docker 29.4.0 on OrbStack (7.0.5-orbstack-00330-ge3df4e19b0a0-dirty)"
+    },
+    {
+      "name": "compose-version",
+      "ok": true,
+      "fatal": true,
+      "detail": "docker compose 5.1.2 (need \u003e= 2.24.0)"
+    },
+    {
+      "name": "disk-results",
+      "ok": true,
+      "fatal": true,
+      "detail": "3560.2 GiB free at /Volumes/workspace/d7y-ci-infra/results/20261121t025924cae6 (need 5.0)"
+    },
+    {
+      "name": "disk-engine",
+      "ok": true,
+      "fatal": true,
+      "detail": "3381.7 GiB free in the docker engine filesystem (need 5.0) "
+    },
+    {
+      "name": "subnet",
+      "ok": true,
+      "fatal": true,
+      "detail": "10.213.0.0/24 conflicts: []"
+    },
+    {
+      "name": "no-stale-dfperf-projects",
+      "ok": true,
+      "fatal": true,
+      "detail": "stale dfperf containers: \"\" (run `compose-bench.sh clean`)"
+    },
+    {
+      "name": "platform",
+      "ok": false,
+      "fatal": false,
+      "detail": "orbstack: orbstack engine on darwin (VM-backed, Docker-Desktop-class); results are non-baseline functional smoke data"
+    }
+  ],
+  "host": {
+    "hostname": "mini-24.local",
+    "os": "darwin",
+    "kernel": "Darwin 25.6.0",
+    "arch": "arm64",
+    "cpus": 10,
+    "memory_bytes": 34359738368,
+    "docker_version": "29.4.0",
+    "compose_version": "5.1.2",
+    "docker_os": "OrbStack",
+    "docker_kernel": "7.0.5-orbstack-00330-ge3df4e19b0a0-dirty",
+    "docker_cpus": 10,
+    "docker_memory_bytes": 16808173568,
+    "storage_driver": "overlayfs",
+    "runtime": "runc",
+    "baseline_eligible": false,
+    "classification": "orbstack",
+    "note": "orbstack engine on darwin (VM-backed, Docker-Desktop-class); results are non-baseline functional smoke data"
+  }
+}
