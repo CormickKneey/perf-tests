@@ -73,6 +73,23 @@ Running benchmark for all size levels by DFGET ...
 +-----------------+-------+-------------+-------------+-------------+
 ```
 
+## Compose benchmark
+
+This repository also includes [`compose-bench/`](compose-bench/), a Docker Compose
+benchmark that starts a local Dragonfly topology, measures dfget downloads in four
+cache states, and compares baseline vs candidate versions.
+
+```shell
+# from the compose-bench directory
+scripts/compose-bench.sh smoke --ref v2.5.4+v1.5.14
+
+scripts/compose-bench.sh run --profile file-3peers \
+  --baseline v2.5.4+v1.5.14 --candidate v2.5.4+v1.5.14
+```
+
+See [compose-bench/README.md](compose-bench/README.md) for the layout. The existing
+`dfbench` cluster tool in `cmd/dfbench` is unchanged.
+
 ## Community
 
 Join the conversation and help the community grow. Here are the ways to get involved:

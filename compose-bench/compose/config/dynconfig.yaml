@@ -1,0 +1,5 @@
+# Local dynconfig for dfdaemon (client and seed-client) without manager
+# (client dragonfly-client/src/dynconfig/local.rs). `addrs` takes precedence
+# over `addr`; IPs are used because every peer has a fixed IP.
+scheduler:
+  addrs: ['__SCHEDULER_IP__:8002']

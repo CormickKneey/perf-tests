@@ -1,0 +1,6 @@
+# Deliberately broken: the seed-client runs as a normal peer instead of
+# announcing itself as a super seed peer. Expected outcome: the warmup check
+# sees the client go back-to-source and the run exits with code 3 (invalid).
+seedPeer:
+  enable: false
+  type: normal

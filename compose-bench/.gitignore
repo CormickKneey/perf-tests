@@ -1,0 +1,16 @@
+.build/
+.tools/
+.logs/
+*.tmp
+dashboard/node_modules/
+dashboard/dist/
+dashboard/*.tsbuildinfo
+dashboard/public/data/
+results/*.db
+scripts/__pycache__/
+.env
+.env.*
+!.env.example
+dashboard/.env
+dashboard/.env.*
+!dashboard/.env.example

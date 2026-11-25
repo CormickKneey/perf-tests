@@ -1,0 +1,251 @@
+# compose-bench benchmark environment (one block = one compose project).
+#
+# Never run this file by hand with a free-form project name: use
+# scripts/compose-bench.sh, which validates the project name
+# (^dfperf-[0-9a-z]{8,}-(baseline|candidate)-b[0-9]+$), renders configs into
+# results/<run>/config/<variant>/ and pins every image by digest.
+#
+# Hard rules: no host ports, restart "no", no docker.sock anywhere, fixed IPs.
+
+x-common: &common
+  restart: "no"
+  labels:
+    dfperf.run: ${DFPERF_RUN_ID:?run id}
+    dfperf.variant: ${DFPERF_VARIANT:?variant}
+    dfperf.block: ${DFPERF_BLOCK:?block}
+  logging:
+    driver: json-file
+    options:
+      max-size: 50m
+
+x-dfdaemon: &dfdaemon
+  <<: *common
+  image: ${DFPERF_CLIENT_IMAGE:?client image}
+  pull_policy: never
+  command: ["--config", "/etc/dragonfly/dfdaemon.yaml", "--dynconfig", "/etc/dragonfly/dynconfig.yaml"]
+  stop_grace_period: 5s
+  healthcheck:
+    test: ["CMD", "/bin/grpc_health_probe", "-addr=unix:///var/run/dragonfly/dfdaemon.sock"]
+    interval: 1s
+    timeout: 2s
+    retries: 60
+    start_period: 2s
+
+x-driver: &driver
+  <<: *common
+  image: ${DFPERF_DRIVER_IMAGE:?driver image}
+  pull_policy: never
+  entrypoint: ["/opt/dfperf/dfbench"]
+  command: ["driver", "serve", "--listen", ":7070", "--endpoint", "/var/run/dragonfly/dfdaemon.sock", "--workdir", "/var/lib/dragonfly/dfperf-out"]
+  stop_grace_period: 2s
+  healthcheck:
+    test: ["CMD", "/opt/dfperf/dfbench", "driver", "probe", "--addr", "127.0.0.1:7070"]
+    interval: 1s
+    timeout: 3s
+    retries: 30
+
+services:
+  fixtures:
+    <<: *common
+    image: ${DFPERF_TOOLS_IMAGE:?tools image}
+    pull_policy: never
+    command: ["fixtures", "--dir", "/fixtures", "--sizes", "${DFPERF_FILE_SIZES:?sizes}", "--seed", "${DFPERF_FIXTURE_SEED:?seed}"]
+    volumes:
+      - fixtures:/fixtures
+    network_mode: none
+
+  origin:
+    <<: *common
+    image: ${DFPERF_ORIGIN_IMAGE:?origin image}
+    pull_policy: never
+    depends_on:
+      fixtures:
+        condition: service_completed_successfully
+    volumes:
+      - fixtures:/fixtures:ro
+      - origin-logs:/var/log/dfperf-origin
+      - ${DFPERF_CONFIG_DIR:?config dir}/origin-nginx.conf:/etc/nginx/nginx.conf:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/manifest.json"]
+      interval: 1s
+      timeout: 2s
+      retries: 30
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX:?net prefix}.5
+
+  scheduler:
+    <<: *common
+    image: ${DFPERF_SCHEDULER_IMAGE:?scheduler image}
+    pull_policy: never
+    command: ["--config", "/etc/dragonfly/scheduler.yaml", "--dynconfig", "/etc/dragonfly/dynconfig.yaml", "--console"]
+    environment:
+      GOGC: "100"
+    volumes:
+      - ${DFPERF_CONFIG_DIR}/scheduler.yaml:/etc/dragonfly/scheduler.yaml:ro
+      - ${DFPERF_CONFIG_DIR}/scheduler-dynconfig.yaml:/etc/dragonfly/dynconfig.yaml:ro
+      - scheduler-data:/var/lib/dragonfly
+    healthcheck:
+      test: ["CMD", "/bin/grpc_health_probe", "-addr=127.0.0.1:8002"]
+      interval: 1s
+      timeout: 2s
+      retries: 60
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.10
+
+  seed-client:
+    <<: *dfdaemon
+    depends_on:
+      scheduler:
+        condition: service_healthy
+    volumes:
+      - ${DFPERF_CONFIG_DIR}/seed-client.yaml:/etc/dragonfly/dfdaemon.yaml:ro
+      - ${DFPERF_CONFIG_DIR}/seed-client.dynconfig.yaml:/etc/dragonfly/dynconfig.yaml:ro
+      - seed-data:/var/lib/dragonfly
+      - seed-run:/var/run/dragonfly
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.20
+
+  client-1:
+    <<: *dfdaemon
+    depends_on:
+      seed-client:
+        condition: service_healthy
+    volumes:
+      - ${DFPERF_CONFIG_DIR}/client-1.yaml:/etc/dragonfly/dfdaemon.yaml:ro
+      - ${DFPERF_CONFIG_DIR}/client-1.dynconfig.yaml:/etc/dragonfly/dynconfig.yaml:ro
+      - client-1-data:/var/lib/dragonfly
+      - client-1-run:/var/run/dragonfly
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.21
+
+  client-2:
+    <<: *dfdaemon
+    depends_on:
+      seed-client:
+        condition: service_healthy
+    volumes:
+      - ${DFPERF_CONFIG_DIR}/client-2.yaml:/etc/dragonfly/dfdaemon.yaml:ro
+      - ${DFPERF_CONFIG_DIR}/client-2.dynconfig.yaml:/etc/dragonfly/dynconfig.yaml:ro
+      - client-2-data:/var/lib/dragonfly
+      - client-2-run:/var/run/dragonfly
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.22
+
+  client-3:
+    <<: *dfdaemon
+    depends_on:
+      seed-client:
+        condition: service_healthy
+    volumes:
+      - ${DFPERF_CONFIG_DIR}/client-3.yaml:/etc/dragonfly/dfdaemon.yaml:ro
+      - ${DFPERF_CONFIG_DIR}/client-3.dynconfig.yaml:/etc/dragonfly/dynconfig.yaml:ro
+      - client-3-data:/var/lib/dragonfly
+      - client-3-run:/var/run/dragonfly
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.23
+
+  # Drivers: built FROM the exact client digest, sharing the daemon's socket
+  # and storage volumes so dfget talks to the local unix socket and dfdaemon
+  # can hard-link the output into the shared volume.
+  driver-seed:
+    <<: *driver
+    depends_on:
+      seed-client:
+        condition: service_healthy
+    volumes:
+      - seed-data:/var/lib/dragonfly
+      - seed-run:/var/run/dragonfly
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.30
+
+  driver-1:
+    <<: *driver
+    depends_on:
+      client-1:
+        condition: service_healthy
+    volumes:
+      - client-1-data:/var/lib/dragonfly
+      - client-1-run:/var/run/dragonfly
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.31
+
+  driver-2:
+    <<: *driver
+    depends_on:
+      client-2:
+        condition: service_healthy
+    volumes:
+      - client-2-data:/var/lib/dragonfly
+      - client-2-run:/var/run/dragonfly
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.32
+
+  driver-3:
+    <<: *driver
+    depends_on:
+      client-3:
+        condition: service_healthy
+    volumes:
+      - client-3-data:/var/lib/dragonfly
+      - client-3-run:/var/run/dragonfly
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.33
+
+  # --- tools profile: never started by `up`, invoked with `run --rm`. ---
+  runner:
+    <<: *common
+    profiles: ["tools"]
+    image: ${DFPERF_TOOLS_IMAGE}
+    pull_policy: never
+    command: ["runner", "--plan", "/out/plan.json", "--out", "/out"]
+    volumes:
+      - ${DFPERF_BLOCK_DIR:?block dir}:/out
+      - fixtures:/fixtures:ro
+      - origin-logs:/var/log/dfperf-origin:ro
+    networks:
+      dfperf:
+        ipv4_address: ${DFPERF_NET_PREFIX}.40
+
+  compare:
+    <<: *common
+    profiles: ["tools"]
+    image: ${DFPERF_TOOLS_IMAGE}
+    pull_policy: never
+    command: ["compare", "--run-dir", "/run", "--config", "/run/compare.yaml"]
+    volumes:
+      - ${DFPERF_RUN_DIR:?run dir}:/run
+    network_mode: none
+
+networks:
+  dfperf:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${DFPERF_NET_PREFIX}.0/24
+    labels:
+      dfperf.run: ${DFPERF_RUN_ID}
+
+volumes:
+  fixtures:
+    external: true
+    name: ${DFPERF_FIXTURES_VOLUME:?fixtures volume}
+  origin-logs:
+  scheduler-data:
+  seed-data:
+  seed-run:
+  client-1-data:
+  client-1-run:
+  client-2-data:
+  client-2-run:
+  client-3-data:
+  client-3-run:

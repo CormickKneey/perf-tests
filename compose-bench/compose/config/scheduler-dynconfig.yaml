@@ -1,0 +1,13 @@
+# Local dynconfig for a scheduler running without manager
+# (scheduler/config/dynconfig_local.go: LocalDynconfigData).
+applications: []
+
+seedPeerClusterConfig:
+  loadLimit: 2000
+
+schedulerClusterConfig:
+  candidateParentLimit: 4
+  filterParentLimit: 15
+
+schedulerClusterClientConfig:
+  loadLimit: 200

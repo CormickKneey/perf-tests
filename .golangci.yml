@@ -28,6 +28,7 @@ linters:
       - third_party$
       - builtin$
       - examples$
+      - ^compose-bench/
 issues:
   new: true
 formatters:
@@ -45,6 +46,7 @@ formatters:
       - third_party$
       - builtin$
       - examples$
+      - ^compose-bench/
 output:
   formats:
     text:

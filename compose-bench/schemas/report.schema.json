@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d7y-ci-infra.local/schemas/report.schema.json",
+  "title": "dfperf report (results/<run>/report.json)",
+  "type": "object",
+  "required": ["schema", "run", "mode", "verdict", "exit_code", "reasons", "non_baseline", "policy", "variants", "groups", "blocks"],
+  "properties": {
+    "schema": {"type": "string", "enum": ["dfperf/v1"]},
+    "run": {"type": "string"},
+    "mode": {"type": "string", "enum": ["smoke", "compare"]},
+    "profile": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "verdict": {"type": "string", "enum": ["PASS", "REGRESSION", "FAILED", "INVALID", "INCONCLUSIVE"]},
+    "exit_code": {"type": "integer", "enum": [0, 1, 2, 3, 4]},
+    "reasons": {"type": ["array", "null"], "items": {"type": "string"}},
+    "non_baseline": {"type": "boolean"},
+    "policy": {"type": "object", "required": ["alpha", "regression_threshold", "min_samples", "max_failure_rate"]},
+    "variants": {"type": "object"},
+    "groups": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "required": ["state", "file", "size_bytes", "baseline", "verdict", "baseline_durations_ms"],
+        "properties": {
+          "state": {"type": "string", "enum": ["cold", "seed-warm", "peer-warm", "local-hit"]},
+          "file": {"type": "string"},
+          "size_bytes": {"type": "integer"},
+          "baseline": {"$ref": "#/$defs/summary"},
+          "candidate": {"$ref": "#/$defs/summary"},
+          "delta_pct": {"type": ["number", "null"]},
+          "p": {"type": ["number", "null"]},
+          "p_adj": {"type": ["number", "null"]},
+          "ratio_ci_lo": {"type": ["number", "null"]},
+          "ratio_ci_hi": {"type": ["number", "null"]},
+          "verdict": {"type": "string", "enum": ["pass", "regression", "improvement", "inconclusive", "measured"]},
+          "reason": {"type": "string"},
+          "baseline_durations_ms": {"type": ["array", "null"], "items": {"type": "number"}},
+          "candidate_durations_ms": {"type": ["array", "null"], "items": {"type": "number"}}
+        }
+      }
+    },
+    "blocks": {"type": ["array", "null"], "items": {"type": "object", "required": ["id", "variant", "order", "status"]}}
+  },
+  "$defs": {
+    "summary": {
+      "type": "object",
+      "required": ["n", "median", "p10", "p90"],
+      "properties": {"n": {"type": "integer"}, "min": {"type": "number"}, "p10": {"type": "number"}, "median": {"type": "number"}, "mean": {"type": "number"}, "p90": {"type": "number"}, "max": {"type": "number"}, "stddev": {"type": "number"}, "cv": {"type": "number"}}
+    }
+  }
+}
