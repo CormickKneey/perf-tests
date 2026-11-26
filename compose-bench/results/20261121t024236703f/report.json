@@ -1,0 +1,54 @@
+{
+  "schema": "dfperf/v1",
+  "run": "20261121t024236703f",
+  "mode": "smoke",
+  "profile": "file-3peers",
+  "generated_at": "2026-11-21T02:43:00.691569Z",
+  "verdict": "INVALID",
+  "exit_code": 3,
+  "reasons": [
+    "aborted after block 01-baseline-b1 (infra-error)",
+    "block 01-baseline-b1 is infra-error: compose up --wait failed (exit 1 \u003cnil\u003e), see logs/up.log and logs/compose.log",
+    "no successful measured samples"
+  ],
+  "non_baseline": true,
+  "policy": {
+    "alpha": 0.05,
+    "metric": "duration_ms",
+    "regression_threshold": 0.1,
+    "min_abs_delta_ms": 5,
+    "min_samples": 8,
+    "min_blocks": 4,
+    "max_failure_rate": 0.01,
+    "bootstrap": {
+      "level": 0.95,
+      "iterations": 2000,
+      "seed": 20261121
+    }
+  },
+  "variants": {
+    "baseline": {
+      "blocks": 1,
+      "valid_blocks": 0,
+      "measured": 0,
+      "failures": 0,
+      "failure_rate": 0
+    }
+  },
+  "blocks": [
+    {
+      "id": "01-baseline-b1",
+      "variant": "baseline",
+      "index": 1,
+      "order": 1,
+      "status": "infra-error",
+      "reasons": [
+        "compose up --wait failed (exit 1 \u003cnil\u003e), see logs/up.log and logs/compose.log"
+      ],
+      "samples": 0,
+      "failures": 0,
+      "checks": null
+    }
+  ],
+  "groups": []
+}

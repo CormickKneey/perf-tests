@@ -1,0 +1,1061 @@
+{
+  "schema": "dfperf/v1",
+  "run": "20261121t02532701c3",
+  "mode": "compare",
+  "profile": "file-3peers",
+  "generated_at": "2026-11-21T02:59:01.596625Z",
+  "verdict": "INCONCLUSIVE",
+  "exit_code": 4,
+  "reasons": [],
+  "non_baseline": true,
+  "policy": {
+    "alpha": 0.05,
+    "metric": "duration_ms",
+    "regression_threshold": 0.1,
+    "min_abs_delta_ms": 5,
+    "min_samples": 8,
+    "min_blocks": 4,
+    "max_failure_rate": 0.01,
+    "bootstrap": {
+      "level": 0.95,
+      "iterations": 2000,
+      "seed": 20261121
+    }
+  },
+  "variants": {
+    "baseline": {
+      "blocks": 4,
+      "valid_blocks": 4,
+      "measured": 96,
+      "failures": 0,
+      "failure_rate": 0
+    },
+    "candidate": {
+      "blocks": 4,
+      "valid_blocks": 4,
+      "measured": 96,
+      "failures": 0,
+      "failure_rate": 0
+    }
+  },
+  "blocks": [
+    {
+      "id": "01-baseline-b1",
+      "variant": "baseline",
+      "index": 1,
+      "order": 1,
+      "status": "ok",
+      "samples": 24,
+      "failures": 0,
+      "checks": [
+        {
+          "name": "fixtures-manifest",
+          "ok": true,
+          "required": true,
+          "detail": "2 files, spec 6a9efa261473012c"
+        },
+        {
+          "name": "drivers-and-metrics-ready",
+          "ok": true,
+          "required": true,
+          "detail": "4 drivers, 5 metrics endpoints, dfget 1.5.14 (8887c145f, 2026-11-13)"
+        },
+        {
+          "name": "seed-announced",
+          "ok": true,
+          "required": true,
+          "detail": "attempt 1: seed back-to-source 4194304 bytes, client-1 remote-peer 4194304 bytes, client back-to-source 0"
+        },
+        {
+          "name": "cold-client-back-to-source-zero",
+          "ok": true,
+          "required": true,
+          "detail": "6 cold samples, 0 with client back-to-source bytes "
+        },
+        {
+          "name": "local-hit-served-locally",
+          "ok": true,
+          "required": false,
+          "detail": "6 local-hit samples, 0 not fully local"
+        }
+      ]
+    },
+    {
+      "id": "02-candidate-b1",
+      "variant": "candidate",
+      "index": 1,
+      "order": 2,
+      "status": "ok",
+      "samples": 24,
+      "failures": 0,
+      "checks": [
+        {
+          "name": "fixtures-manifest",
+          "ok": true,
+          "required": true,
+          "detail": "2 files, spec 6a9efa261473012c"
+        },
+        {
+          "name": "drivers-and-metrics-ready",
+          "ok": true,
+          "required": true,
+          "detail": "4 drivers, 5 metrics endpoints, dfget 1.5.14 (8887c145f, 2026-11-13)"
+        },
+        {
+          "name": "seed-announced",
+          "ok": true,
+          "required": true,
+          "detail": "attempt 1: seed back-to-source 4194304 bytes, client-1 remote-peer 4194304 bytes, client back-to-source 0"
+        },
+        {
+          "name": "cold-client-back-to-source-zero",
+          "ok": true,
+          "required": true,
+          "detail": "6 cold samples, 0 with client back-to-source bytes "
+        },
+        {
+          "name": "local-hit-served-locally",
+          "ok": true,
+          "required": false,
+          "detail": "6 local-hit samples, 0 not fully local"
+        }
+      ]
+    },
+    {
+      "id": "03-candidate-b2",
+      "variant": "candidate",
+      "index": 2,
+      "order": 3,
+      "status": "ok",
+      "samples": 24,
+      "failures": 0,
+      "checks": [
+        {
+          "name": "fixtures-manifest",
+          "ok": true,
+          "required": true,
+          "detail": "2 files, spec 6a9efa261473012c"
+        },
+        {
+          "name": "drivers-and-metrics-ready",
+          "ok": true,
+          "required": true,
+          "detail": "4 drivers, 5 metrics endpoints, dfget 1.5.14 (8887c145f, 2026-11-13)"
+        },
+        {
+          "name": "seed-announced",
+          "ok": true,
+          "required": true,
+          "detail": "attempt 1: seed back-to-source 4194304 bytes, client-1 remote-peer 4194304 bytes, client back-to-source 0"
+        },
+        {
+          "name": "cold-client-back-to-source-zero",
+          "ok": true,
+          "required": true,
+          "detail": "6 cold samples, 0 with client back-to-source bytes "
+        },
+        {
+          "name": "local-hit-served-locally",
+          "ok": true,
+          "required": false,
+          "detail": "6 local-hit samples, 0 not fully local"
+        }
+      ]
+    },
+    {
+      "id": "04-baseline-b2",
+      "variant": "baseline",
+      "index": 2,
+      "order": 4,
+      "status": "ok",
+      "samples": 24,
+      "failures": 0,
+      "checks": [
+        {
+          "name": "fixtures-manifest",
+          "ok": true,
+          "required": true,
+          "detail": "2 files, spec 6a9efa261473012c"
+        },
+        {
+          "name": "drivers-and-metrics-ready",
+          "ok": true,
+          "required": true,
+          "detail": "4 drivers, 5 metrics endpoints, dfget 1.5.14 (8887c145f, 2026-11-13)"
+        },
+        {
+          "name": "seed-announced",
+          "ok": true,
+          "required": true,
+          "detail": "attempt 1: seed back-to-source 4194304 bytes, client-1 remote-peer 4194304 bytes, client back-to-source 0"
+        },
+        {
+          "name": "cold-client-back-to-source-zero",
+          "ok": true,
+          "required": true,
+          "detail": "6 cold samples, 0 with client back-to-source bytes "
+        },
+        {
+          "name": "local-hit-served-locally",
+          "ok": true,
+          "required": false,
+          "detail": "6 local-hit samples, 0 not fully local"
+        }
+      ]
+    },
+    {
+      "id": "05-baseline-b3",
+      "variant": "baseline",
+      "index": 3,
+      "order": 5,
+      "status": "ok",
+      "samples": 24,
+      "failures": 0,
+      "checks": [
+        {
+          "name": "fixtures-manifest",
+          "ok": true,
+          "required": true,
+          "detail": "2 files, spec 6a9efa261473012c"
+        },
+        {
+          "name": "drivers-and-metrics-ready",
+          "ok": true,
+          "required": true,
+          "detail": "4 drivers, 5 metrics endpoints, dfget 1.5.14 (8887c145f, 2026-11-13)"
+        },
+        {
+          "name": "seed-announced",
+          "ok": true,
+          "required": true,
+          "detail": "attempt 1: seed back-to-source 4194304 bytes, client-1 remote-peer 4194304 bytes, client back-to-source 0"
+        },
+        {
+          "name": "cold-client-back-to-source-zero",
+          "ok": true,
+          "required": true,
+          "detail": "6 cold samples, 0 with client back-to-source bytes "
+        },
+        {
+          "name": "local-hit-served-locally",
+          "ok": true,
+          "required": false,
+          "detail": "6 local-hit samples, 0 not fully local"
+        }
+      ]
+    },
+    {
+      "id": "06-candidate-b3",
+      "variant": "candidate",
+      "index": 3,
+      "order": 6,
+      "status": "ok",
+      "samples": 24,
+      "failures": 0,
+      "checks": [
+        {
+          "name": "fixtures-manifest",
+          "ok": true,
+          "required": true,
+          "detail": "2 files, spec 6a9efa261473012c"
+        },
+        {
+          "name": "drivers-and-metrics-ready",
+          "ok": true,
+          "required": true,
+          "detail": "4 drivers, 5 metrics endpoints, dfget 1.5.14 (8887c145f, 2026-11-13)"
+        },
+        {
+          "name": "seed-announced",
+          "ok": true,
+          "required": true,
+          "detail": "attempt 1: seed back-to-source 4194304 bytes, client-1 remote-peer 4194304 bytes, client back-to-source 0"
+        },
+        {
+          "name": "cold-client-back-to-source-zero",
+          "ok": true,
+          "required": true,
+          "detail": "6 cold samples, 0 with client back-to-source bytes "
+        },
+        {
+          "name": "local-hit-served-locally",
+          "ok": true,
+          "required": false,
+          "detail": "6 local-hit samples, 0 not fully local"
+        }
+      ]
+    },
+    {
+      "id": "07-candidate-b4",
+      "variant": "candidate",
+      "index": 4,
+      "order": 7,
+      "status": "ok",
+      "samples": 24,
+      "failures": 0,
+      "checks": [
+        {
+          "name": "fixtures-manifest",
+          "ok": true,
+          "required": true,
+          "detail": "2 files, spec 6a9efa261473012c"
+        },
+        {
+          "name": "drivers-and-metrics-ready",
+          "ok": true,
+          "required": true,
+          "detail": "4 drivers, 5 metrics endpoints, dfget 1.5.14 (8887c145f, 2026-11-13)"
+        },
+        {
+          "name": "seed-announced",
+          "ok": true,
+          "required": true,
+          "detail": "attempt 1: seed back-to-source 4194304 bytes, client-1 remote-peer 4194304 bytes, client back-to-source 0"
+        },
+        {
+          "name": "cold-client-back-to-source-zero",
+          "ok": true,
+          "required": true,
+          "detail": "6 cold samples, 0 with client back-to-source bytes "
+        },
+        {
+          "name": "local-hit-served-locally",
+          "ok": true,
+          "required": false,
+          "detail": "6 local-hit samples, 0 not fully local"
+        }
+      ]
+    },
+    {
+      "id": "08-baseline-b4",
+      "variant": "baseline",
+      "index": 4,
+      "order": 8,
+      "status": "ok",
+      "samples": 24,
+      "failures": 0,
+      "checks": [
+        {
+          "name": "fixtures-manifest",
+          "ok": true,
+          "required": true,
+          "detail": "2 files, spec 6a9efa261473012c"
+        },
+        {
+          "name": "drivers-and-metrics-ready",
+          "ok": true,
+          "required": true,
+          "detail": "4 drivers, 5 metrics endpoints, dfget 1.5.14 (8887c145f, 2026-11-13)"
+        },
+        {
+          "name": "seed-announced",
+          "ok": true,
+          "required": true,
+          "detail": "attempt 1: seed back-to-source 4194304 bytes, client-1 remote-peer 4194304 bytes, client back-to-source 0"
+        },
+        {
+          "name": "cold-client-back-to-source-zero",
+          "ok": true,
+          "required": true,
+          "detail": "6 cold samples, 0 with client back-to-source bytes "
+        },
+        {
+          "name": "local-hit-served-locally",
+          "ok": true,
+          "required": false,
+          "detail": "6 local-hit samples, 0 not fully local"
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "baseline": {
+        "n": 12,
+        "min": 833.87545,
+        "p10": 871.8382021000001,
+        "median": 1057.278916,
+        "mean": 1071.525236166667,
+        "p90": 1305.0080293,
+        "max": 1329.764585,
+        "stddev": 163.25354159860854,
+        "cv": 0.15235622651561684
+      },
+      "baseline_durations_ms": [
+        1095.641,
+        956.161,
+        1152.535,
+        1311.842,
+        1329.765,
+        862.469,
+        1038.494,
+        990.761,
+        967.196,
+        1243.5,
+        1076.064,
+        833.875
+      ],
+      "baseline_mib_per_s": {
+        "n": 12,
+        "min": 3.008051233369251,
+        "p10": 3.0659050954572526,
+        "median": 3.7844914858059298,
+        "mean": 3.8129533162850446,
+        "p90": 4.592402688428898,
+        "max": 4.796879438050371,
+        "stddev": 0.5784901035525012,
+        "cv": 0.15171706956961206
+      },
+      "candidate": {
+        "n": 12,
+        "min": 851.861102,
+        "p10": 1074.9822927,
+        "median": 1122.889316,
+        "mean": 1126.1868331666667,
+        "p90": 1212.9251087,
+        "max": 1289.299775,
+        "stddev": 106.93928934605387,
+        "cv": 0.09495697001301
+      },
+      "candidate_durations_ms": [
+        1214.741,
+        1102.71,
+        1114.325,
+        1196.58,
+        1289.3,
+        1153.92,
+        1096.691,
+        851.861,
+        1072.905,
+        1093.681,
+        1131.454,
+        1196.075
+      ],
+      "candidate_mib_per_s": {
+        "n": 12,
+        "min": 3.1024592399389816,
+        "p10": 3.297880192404268,
+        "median": 3.5624461460886314,
+        "mean": 3.585812197219114,
+        "p90": 3.72111472211461,
+        "max": 4.695601184992245,
+        "stddev": 0.3949872567745933,
+        "cv": 0.11015280083014824
+      },
+      "delta_ms": 65.6104,
+      "delta_pct": 6.205591,
+      "file": "f-4mib.bin",
+      "method": "exact",
+      "p": 0.26567,
+      "p_adj": 1,
+      "ratio_ci_hi": 1.207483,
+      "ratio_ci_lo": 0.942834,
+      "reason": "no significant difference (Δ 6.2%, p_adj=1)",
+      "size_bytes": 4194304,
+      "state": "cold",
+      "verdict": "pass"
+    },
+    {
+      "baseline": {
+        "n": 12,
+        "min": 43.991986,
+        "p10": 48.1935353,
+        "median": 61.96361,
+        "mean": 69.79152366666666,
+        "p90": 98.946684,
+        "max": 110.875088,
+        "stddev": 23.3974580859839,
+        "cv": 0.3352478475428217
+      },
+      "baseline_durations_ms": [
+        48.041,
+        89.571,
+        49.65,
+        43.992,
+        99.612,
+        54.803,
+        69.124,
+        110.875,
+        52.705,
+        49.569,
+        76.595,
+        92.961
+      ],
+      "baseline_mib_per_s": {
+        "n": 12,
+        "min": 36.07663427514033,
+        "p10": 40.443192136748685,
+        "median": 65.4277813464373,
+        "mean": 63.19488748179961,
+        "p90": 83.00600608360149,
+        "max": 90.92565177666678,
+        "stddev": 19.545184523336424,
+        "cv": 0.30928426811370646
+      },
+      "candidate": {
+        "n": 12,
+        "min": 47.522286,
+        "p10": 49.2323003,
+        "median": 69.2427555,
+        "mean": 73.44138566666666,
+        "p90": 95.8677086,
+        "max": 100.144511,
+        "stddev": 20.2316317946061,
+        "cv": 0.2754799846292765
+      },
+      "candidate_durations_ms": [
+        53.861,
+        51.665,
+        69.873,
+        48.962,
+        47.522,
+        67.551,
+        96.142,
+        90.428,
+        93.398,
+        68.613,
+        100.145,
+        93.137
+      ],
+      "candidate_mib_per_s": {
+        "n": 12,
+        "min": 39.942279013175266,
+        "p10": 41.72731207362397,
+        "median": 57.772555280646586,
+        "mean": 58.655849623861535,
+        "p90": 81.2685847547942,
+        "max": 84.17103503817135,
+        "stddev": 16.85859940419731,
+        "cv": 0.28741548391686983
+      },
+      "delta_ms": 7.279145,
+      "delta_pct": 11.747452,
+      "file": "f-4mib.bin",
+      "method": "exact",
+      "p": 0.629726,
+      "p_adj": 1,
+      "ratio_ci_hi": 1.76694,
+      "ratio_ci_lo": 0.705562,
+      "reason": "candidate median 11.7% slower but not significant (p_adj=1)",
+      "size_bytes": 4194304,
+      "state": "seed-warm",
+      "verdict": "inconclusive"
+    },
+    {
+      "baseline": {
+        "n": 12,
+        "min": 143.228877,
+        "p10": 148.8048541,
+        "median": 176.26445,
+        "mean": 173.79726050000002,
+        "p90": 190.6367539,
+        "max": 208.372058,
+        "stddev": 18.59535653782079,
+        "cv": 0.10699453192946495
+      },
+      "baseline_durations_ms": [
+        185.297,
+        172.385,
+        172.826,
+        177.9,
+        191.23,
+        148.513,
+        151.431,
+        175.47,
+        208.372,
+        177.059,
+        181.856,
+        143.229
+      ],
+      "baseline_mib_per_s": {
+        "n": 12,
+        "min": 19.196431797971684,
+        "p10": 20.98418898668036,
+        "median": 22.693636380474324,
+        "mean": 23.266011988096547,
+        "p90": 26.88175952446181,
+        "max": 27.927329207503316,
+        "stddev": 2.574534895211142,
+        "cv": 0.11065647591552588
+      },
+      "candidate": {
+        "n": 12,
+        "min": 150.592031,
+        "p10": 155.0750462,
+        "median": 183.46473550000002,
+        "mean": 178.03270899999998,
+        "p90": 194.6886305,
+        "max": 200.637671,
+        "stddev": 16.452579732994224,
+        "cv": 0.09241324150717846
+      },
+      "candidate_durations_ms": [
+        160.879,
+        171.802,
+        192.366,
+        200.638,
+        154.43,
+        183.919,
+        150.592,
+        187.274,
+        168.6,
+        183.011,
+        194.947,
+        187.936
+      ],
+      "candidate_mib_per_s": {
+        "n": 12,
+        "min": 19.93643556598103,
+        "p10": 20.545955560594745,
+        "median": 21.80268852289619,
+        "mean": 22.652605551269872,
+        "p90": 25.797848432570696,
+        "max": 26.561830486236023,
+        "stddev": 2.1879472368234114,
+        "cv": 0.09658700107903297
+      },
+      "delta_ms": 7.200286,
+      "delta_pct": 4.084933,
+      "file": "f-4mib.bin",
+      "method": "exact",
+      "p": 0.477575,
+      "p_adj": 1,
+      "ratio_ci_hi": 1.145568,
+      "ratio_ci_lo": 0.928189,
+      "reason": "no significant difference (Δ 4.1%, p_adj=1)",
+      "size_bytes": 4194304,
+      "state": "peer-warm",
+      "verdict": "pass"
+    },
+    {
+      "baseline": {
+        "n": 12,
+        "min": 2.092489,
+        "p10": 2.5198371,
+        "median": 3.8897684999999997,
+        "mean": 3.648376416666667,
+        "p90": 4.8202812,
+        "max": 4.941737,
+        "stddev": 0.9368097299036146,
+        "cv": 0.25677441769002807
+      },
+      "baseline_durations_ms": [
+        3.85,
+        4.223,
+        4.353,
+        2.092,
+        4.942,
+        3.45,
+        4.872,
+        2.937,
+        3.93,
+        2.513,
+        2.584,
+        4.034
+      ],
+      "baseline_mib_per_s": {
+        "n": 12,
+        "min": 809.4319871737407,
+        "p10": 830.7768194349497,
+        "median": 1028.446918767111,
+        "mean": 1176.4578304854374,
+        "p90": 1587.5159713369967,
+        "max": 1911.5990573905049,
+        "stddev": 349.5287621823086,
+        "cv": 0.2971026696622724
+      },
+      "candidate": {
+        "n": 12,
+        "min": 2.473502,
+        "p10": 2.6446572,
+        "median": 3.2728384999999998,
+        "mean": 3.5443768333333328,
+        "p90": 4.7574917,
+        "max": 4.988003,
+        "stddev": 0.888080901649049,
+        "cv": 0.25056051977798516
+      },
+      "candidate_durations_ms": [
+        4.28,
+        3.442,
+        2.878,
+        3.232,
+        4.774,
+        3.196,
+        2.638,
+        4.612,
+        2.474,
+        2.705,
+        3.314,
+        4.988
+      ],
+      "candidate_mib_per_s": {
+        "n": 12,
+        "min": 801.9241367737749,
+        "p10": 840.8690467685618,
+        "median": 1222.3731404215941,
+        "mean": 1191.8317883581076,
+        "p90": 1512.5679378850477,
+        "max": 1617.1403944690564,
+        "stddev": 280.1466826896095,
+        "cv": 0.2350555551765786
+      },
+      "delta_ms": -0.61693,
+      "delta_pct": -15.860327,
+      "file": "f-4mib.bin",
+      "method": "exact",
+      "p": 0.798745,
+      "p_adj": 1,
+      "ratio_ci_hi": 1.266628,
+      "ratio_ci_lo": 0.702843,
+      "reason": "no significant difference (Δ -15.9%, p_adj=1)",
+      "size_bytes": 4194304,
+      "state": "local-hit",
+      "verdict": "pass"
+    },
+    {
+      "baseline": {
+        "n": 12,
+        "min": 871.938738,
+        "p10": 950.7568348,
+        "median": 1097.1722735,
+        "mean": 1092.9517335833334,
+        "p90": 1277.2508522,
+        "max": 1315.966357,
+        "stddev": 140.5526632020947,
+        "cv": 0.12859914933414404
+      },
+      "baseline_durations_ms": [
+        970.499,
+        1056.576,
+        1315.966,
+        1104.096,
+        871.939,
+        956.096,
+        1121.969,
+        1090.248,
+        1247.502,
+        1280.556,
+        950.164,
+        1149.81
+      ],
+      "baseline_mib_per_s": {
+        "n": 12,
+        "min": 48.63346213948842,
+        "p10": 50.11070416659804,
+        "median": 58.33409256530031,
+        "mean": 59.4583553306641,
+        "p90": 67.3150281542662,
+        "max": 73.39965207509796,
+        "stddev": 7.702705401297278,
+        "cv": 0.1295479055628168
+      },
+      "candidate": {
+        "n": 12,
+        "min": 872.636434,
+        "p10": 895.4464019999999,
+        "median": 1085.721432,
+        "mean": 1079.391847416667,
+        "p90": 1289.5004459,
+        "max": 1374.612117,
+        "stddev": 168.98371663497397,
+        "cv": 0.15655456082923597
+      },
+      "candidate_durations_ms": [
+        905.944,
+        1053.672,
+        1152.765,
+        1374.612,
+        982.456,
+        1293.301,
+        1117.771,
+        1125.784,
+        924.182,
+        1255.298,
+        894.28,
+        872.636
+      ],
+      "candidate_mib_per_s": {
+        "n": 12,
+        "min": 46.55858857091683,
+        "p10": 49.63559652462254,
+        "median": 58.99839064935383,
+        "mean": 60.61147738169194,
+        "p90": 71.47381148109632,
+        "max": 73.34096710429122,
+        "stddev": 9.259805361536836,
+        "cv": 0.1527731340918249
+      },
+      "delta_ms": -11.450842,
+      "delta_pct": -1.043669,
+      "file": "f-64mib.bin",
+      "method": "exact",
+      "p": 0.887386,
+      "p_adj": 1,
+      "ratio_ci_hi": 1.164518,
+      "ratio_ci_lo": 0.822135,
+      "reason": "no significant difference (Δ -1.0%, p_adj=1)",
+      "size_bytes": 67108864,
+      "state": "cold",
+      "verdict": "pass"
+    },
+    {
+      "baseline": {
+        "n": 12,
+        "min": 75.257121,
+        "p10": 76.2964182,
+        "median": 102.7996845,
+        "mean": 98.77722608333333,
+        "p90": 115.0282895,
+        "max": 117.502399,
+        "stddev": 15.440622023489759,
+        "cv": 0.15631763145953592
+      },
+      "baseline_durations_ms": [
+        114.636,
+        85.72,
+        115.072,
+        117.502,
+        94.391,
+        111.518,
+        105.874,
+        84.356,
+        100.3,
+        75.401,
+        105.299,
+        75.257
+      ],
+      "baseline_mib_per_s": {
+        "n": 12,
+        "min": 544.6697305303528,
+        "p10": 556.385592196858,
+        "median": 622.9382780759747,
+        "mean": 663.8291892479677,
+        "p90": 839.785449294657,
+        "max": 850.4178627827126,
+        "stddev": 111.77113675727018,
+        "cv": 0.16837333845456895
+      },
+      "candidate": {
+        "n": 12,
+        "min": 69.035863,
+        "p10": 70.0317292,
+        "median": 97.84390450000001,
+        "mean": 96.02268391666668,
+        "p90": 122.8797918,
+        "max": 125.570328,
+        "stddev": 21.207865555133473,
+        "cv": 0.22086307828615503
+      },
+      "candidate_durations_ms": [
+        69.036,
+        98.17,
+        97.518,
+        86.569,
+        121.188,
+        125.57,
+        76.261,
+        101.173,
+        123.068,
+        111.288,
+        69.736,
+        72.696
+      ],
+      "candidate_mib_per_s": {
+        "n": 12,
+        "min": 509.67454668112356,
+        "p10": 520.8453212086173,
+        "median": 654.1103368224644,
+        "mean": 698.1171914510606,
+        "p90": 914.0136489142268,
+        "max": 927.0543920049206,
+        "stddev": 158.0903682013376,
+        "cv": 0.22645247837650487
+      },
+      "delta_ms": -4.95578,
+      "delta_pct": -4.820812,
+      "file": "f-64mib.bin",
+      "method": "exact",
+      "p": 0.755285,
+      "p_adj": 1,
+      "ratio_ci_hi": 1.194105,
+      "ratio_ci_lo": 0.722212,
+      "reason": "no significant difference (Δ -4.8%, p_adj=1)",
+      "size_bytes": 67108864,
+      "state": "seed-warm",
+      "verdict": "pass"
+    },
+    {
+      "baseline": {
+        "n": 12,
+        "min": 139.448414,
+        "p10": 148.44580860000002,
+        "median": 178.592259,
+        "mean": 173.74932841666669,
+        "p90": 193.5390171,
+        "max": 195.517144,
+        "stddev": 18.826431847280148,
+        "cv": 0.10835398340149352
+      },
+      "baseline_durations_ms": [
+        179.058,
+        154.316,
+        195.517,
+        180.748,
+        139.448,
+        147.794,
+        187.787,
+        176.69,
+        160.293,
+        178.127,
+        191.443,
+        193.772
+      ],
+      "baseline_mib_per_s": {
+        "n": 12,
+        "min": 327.33702370366046,
+        "p10": 330.68702770844345,
+        "median": 358.360632983885,
+        "mean": 372.6457847877146,
+        "p90": 431.20614621762036,
+        "max": 458.9510784970276,
+        "stddev": 43.45287150495979,
+        "cv": 0.1166063679741168
+      },
+      "candidate": {
+        "n": 12,
+        "min": 157.622391,
+        "p10": 164.75403369999998,
+        "median": 183.56077,
+        "mean": 181.0754545,
+        "p90": 193.71875500000002,
+        "max": 197.40036,
+        "stddev": 13.791391510841642,
+        "cv": 0.07616378237969101
+      },
+      "candidate_durations_ms": [
+        177.147,
+        164.334,
+        189.975,
+        157.622,
+        193.556,
+        168.538,
+        191.934,
+        193.225,
+        176.057,
+        197.4,
+        169.38,
+        193.737
+      ],
+      "candidate_mib_per_s": {
+        "n": 12,
+        "min": 324.21420102779956,
+        "p10": 330.3758843502916,
+        "median": 349.0845752040352,
+        "mean": 355.3864745374283,
+        "p90": 388.4801779229865,
+        "max": 406.03368337433733,
+        "stddev": 27.866559321922743,
+        "cv": 0.07841198615730638
+      },
+      "delta_ms": 4.968511,
+      "delta_pct": 2.782042,
+      "file": "f-64mib.bin",
+      "method": "exact",
+      "p": 0.477575,
+      "p_adj": 1,
+      "ratio_ci_hi": 1.195322,
+      "ratio_ci_lo": 0.928119,
+      "reason": "no significant difference (Δ 2.8%, p_adj=1)",
+      "size_bytes": 67108864,
+      "state": "peer-warm",
+      "verdict": "pass"
+    },
+    {
+      "baseline": {
+        "n": 12,
+        "min": 1.996736,
+        "p10": 2.0893555999999998,
+        "median": 2.2336725,
+        "mean": 2.352793333333333,
+        "p90": 2.4043799999999997,
+        "max": 3.848453,
+        "stddev": 0.4849431498466099,
+        "cv": 0.20611378950124956
+      },
+      "baseline_durations_ms": [
+        2.357,
+        2.172,
+        2.41,
+        2.283,
+        2.289,
+        3.848,
+        2.249,
+        2.087,
+        2.218,
+        2.214,
+        1.997,
+        2.108
+      ],
+      "baseline_mib_per_s": {
+        "n": 12,
+        "min": 16630.05888340068,
+        "p10": 26619.262382586257,
+        "median": 28653.722620433247,
+        "mean": 27923.108431119002,
+        "p90": 30631.72967503553,
+        "max": 32052.30936889003,
+        "stddev": 3872.396243405957,
+        "cv": 0.13868070071634117
+      },
+      "candidate": {
+        "n": 12,
+        "min": 2.027034,
+        "p10": 2.0794519,
+        "median": 2.221068,
+        "mean": 2.3284437500000004,
+        "p90": 2.5666098,
+        "max": 3.350279,
+        "stddev": 0.35612143708626465,
+        "cv": 0.15294397259382564
+      },
+      "candidate_durations_ms": [
+        2.123,
+        2.027,
+        2.318,
+        2.4,
+        2.585,
+        2.149,
+        3.35,
+        2.223,
+        2.075,
+        2.307,
+        2.166,
+        2.219
+      ],
+      "candidate_mib_per_s": {
+        "n": 12,
+        "min": 19102.88665511141,
+        "p10": 24948.03012018217,
+        "median": 28814.98749128056,
+        "mean": 27951.390025726258,
+        "p90": 30778.80143824359,
+        "max": 31573.224721440292,
+        "stddev": 3358.2184983061943,
+        "cv": 0.12014495505287266
+      },
+      "delta_ms": -0.012605,
+      "delta_pct": -0.564295,
+      "file": "f-64mib.bin",
+      "method": "exact",
+      "p": 0.977402,
+      "p_adj": 1,
+      "ratio_ci_hi": 1.067072,
+      "ratio_ci_lo": 0.939841,
+      "reason": "no significant difference (Δ -0.6%, p_adj=1)",
+      "size_bytes": 67108864,
+      "state": "local-hit",
+      "verdict": "pass"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d7y-ci-infra.local/schemas/index.schema.json",
+  "title": "dfperf results index (results/index.json, read by the dashboard)",
+  "type": "object",
+  "required": ["schema", "generated_at", "runs"],
+  "properties": {
+    "schema": {"type": "string", "enum": ["dfperf/v1"]},
+    "generated_at": {"type": "string"},
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "mode", "verdict", "exit_code", "non_baseline", "baseline", "blocks", "has_report"],
+        "properties": {
+          "id": {"type": "string"},
+          "mode": {"type": "string", "enum": ["smoke", "compare"]},
+          "profile": {"type": "string"},
+          "verdict": {"type": "string"},
+          "exit_code": {"type": "integer"},
+          "started_at": {"type": "string"},
+          "finished_at": {"type": "string"},
+          "non_baseline": {"type": "boolean"},
+          "classification": {"type": "string"},
+          "baseline": {"type": "string"},
+          "candidate": {"type": "string"},
+          "overlays": {"type": ["array", "null"], "items": {"type": "string"}},
+          "blocks": {"type": "integer"},
+          "reasons": {"type": ["array", "null"], "items": {"type": "string"}},
+          "has_report": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

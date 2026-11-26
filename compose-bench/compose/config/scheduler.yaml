@@ -1,0 +1,56 @@
+# dfperf scheduler template (rendered by `dfbench compose render`).
+# Placeholders: __SCHEDULER_IP__.
+# No `manager` section on purpose: since dragonfly #4895 (5523218) a scheduler
+# without manager.addr loads its dynamic config from --dynconfig (local file).
+server:
+  advertiseIP: __SCHEDULER_IP__
+  advertisePort: 8002
+  listenIP: 0.0.0.0
+  port: 8002
+  logDir: /var/log/dragonfly
+  pluginDir: /usr/local/dragonfly/plugins
+  dataDir: /var/lib/dragonfly
+
+scheduler:
+  algorithm: default
+  backToSourceCount: 200
+  retryBackToSourceLimit: 3
+  retryLimit: 5
+  retryInterval: 1s
+  # Fixed GC configuration: long TTLs so no metadata is collected mid-block.
+  gc:
+    pieceDownloadTimeout: 30m
+    peerGCInterval: 10s
+    peerTTL: 24h
+    taskGCInterval: 30m
+    hostGCInterval: 5m
+    hostTTL: 1h
+
+dynConfig:
+  refreshInterval: 1m
+
+host:
+  idc: ''
+  location: ''
+
+seedPeer: {}
+
+job:
+  enable: false
+
+storage:
+  maxSize: 100
+  maxBackups: 10
+  bufferSize: 100
+
+metrics:
+  enable: true
+  addr: ':8000'
+  enableHost: false
+
+network:
+  enableIPv6: false
+
+console: true
+
+pprofPort: -1

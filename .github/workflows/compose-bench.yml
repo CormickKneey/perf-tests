@@ -1,0 +1,66 @@
+name: Compose bench
+
+on:
+  push:
+    branches: [main, release-*, compose-bench]
+    paths:
+      - 'compose-bench/**'
+      - '.github/workflows/compose-bench.yml'
+  pull_request:
+    branches: [main, release-*]
+    paths:
+      - 'compose-bench/**'
+      - '.github/workflows/compose-bench.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  go-test:
+    name: Compose-bench Go tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: compose-bench/go.mod
+          cache-dependency-path: compose-bench/go.sum
+
+      - name: Run unit tests with race detector
+        run: make compose-bench-test-race
+
+  publish-and-dashboard:
+    name: Results store and dashboard tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Publish-results tests
+        run: python3 scripts/test_publish_results.py
+        working-directory: compose-bench
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: compose-bench/dashboard/package-lock.json
+
+      - name: Dashboard unit tests and build
+        working-directory: compose-bench/dashboard
+        run: |
+          npm ci
+          npm test
+          node scripts/test-sqlite-data.mjs
+          npm run build

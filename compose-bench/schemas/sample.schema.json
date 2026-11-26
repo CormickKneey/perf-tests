@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d7y-ci-infra.local/schemas/sample.schema.json",
+  "title": "dfperf sample (one line of results/<run>/blocks/<id>/samples.jsonl)",
+  "type": "object",
+  "required": ["run", "variant", "block", "role", "state", "file", "size_bytes", "peer", "tag", "ok", "duration_ms", "mib_per_s", "sha256_ok", "traffic", "seed_back_to_source", "origin_bytes"],
+  "properties": {
+    "run": {"type": "string"},
+    "variant": {"type": "string", "enum": ["baseline", "candidate"]},
+    "block": {"type": "integer"},
+    "role": {"type": "string", "enum": ["measure", "prep", "warmup"]},
+    "state": {"type": "string", "enum": ["cold", "seed-warm", "peer-warm", "local-hit"]},
+    "file": {"type": "string"},
+    "size_bytes": {"type": "integer"},
+    "index": {"type": "integer"},
+    "peer": {"type": "string"},
+    "tag": {"type": "string"},
+    "ok": {"type": "boolean"},
+    "error": {"type": "string"},
+    "exit_code": {"type": "integer"},
+    "duration_ms": {"type": "number"},
+    "mib_per_s": {"type": "number"},
+    "sha256_ok": {"type": "boolean"},
+    "started_at": {"type": "string"},
+    "traffic": {
+      "type": "object",
+      "required": ["back_to_source", "remote_peer", "local_peer"],
+      "properties": {"back_to_source": {"type": "integer"}, "remote_peer": {"type": "integer"}, "local_peer": {"type": "integer"}}
+    },
+    "seed_back_to_source": {"type": "integer"},
+    "scheduler_normal_back_to_source": {"type": "integer"},
+    "scheduler_super_back_to_source": {"type": "integer"},
+    "origin_bytes": {"type": ["object", "null"]},
+    "origin_probes": {"type": ["object", "null"]},
+    "metrics_error": {"type": "string"}
+  }
+}

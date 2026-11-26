@@ -1,0 +1,149 @@
+{
+  "schema": "dfperf/v1",
+  "id": "20261121t025924cae6",
+  "mode": "smoke",
+  "profile": "file-3peers",
+  "params": {
+    "DFPERF_BLOCKS": "4",
+    "DFPERF_DOWNLOAD_TIMEOUT": "600",
+    "DFPERF_FILE_SIZES": "4MiB,64MiB",
+    "DFPERF_FIXTURE_SEED": "dfperf-v1",
+    "DFPERF_MIN_BLOCKS": "4",
+    "DFPERF_MIN_FREE_GIB": "5",
+    "DFPERF_NET_PREFIX": "10.213.0",
+    "DFPERF_ORIGIN_IMAGE": "nginx:stable-alpine",
+    "DFPERF_SAMPLES": "3",
+    "DFPERF_SCHEDULING_POLICY": "always",
+    "DFPERF_SMOKE_BLOCKS": "1",
+    "DFPERF_STATES": "cold,seed-warm,peer-warm,local-hit",
+    "DFPERF_TOOLS_BASE_IMAGE": "alpine:3.20",
+    "DFPERF_UP_TIMEOUT": "180",
+    "DFPERF_WARMUP_TIMEOUT": "45"
+  },
+  "baseline": {
+    "name": "baseline",
+    "scheduler": {
+      "component": "scheduler",
+      "ref": "dragonflyoss/scheduler:v2.5.4",
+      "pinned": "dragonflyoss/scheduler@sha256:94cf26b861c41a526e33af0dc9085c44badbffd3990b8f6f610803859fc648bd",
+      "image_id": "sha256:94cf26b861c41a526e33af0dc9085c44badbffd3990b8f6f610803859fc648bd",
+      "repo_digests": [
+        "dragonflyoss/scheduler@sha256:94cf26b861c41a526e33af0dc9085c44badbffd3990b8f6f610803859fc648bd"
+      ],
+      "registry_digest": "sha256:b9d27b9db12c1099d1e370a9ff9cf4db58fe42dab420ea827762b52f8925fc82",
+      "platform": "linux/arm64",
+      "version": "v2.5.0 (5ace19f)",
+      "source": "local"
+    },
+    "client": {
+      "component": "client",
+      "ref": "dragonflyoss/client:v1.5.14",
+      "pinned": "dragonflyoss/client@sha256:d942d337b7c6605b5df451d445ade7d5e45b325db75ed62c8cb07998b3c93d04",
+      "image_id": "sha256:d942d337b7c6605b5df451d445ade7d5e45b325db75ed62c8cb07998b3c93d04",
+      "repo_digests": [
+        "dragonflyoss/client@sha256:d942d337b7c6605b5df451d445ade7d5e45b325db75ed62c8cb07998b3c93d04"
+      ],
+      "registry_digest": "sha256:db6490a4d7ac8fe0975af0a1b84d8dd6c1fc022d351d4944b91626c147b42603",
+      "platform": "linux/arm64",
+      "version": "dfget 1.5.14 (8887c145f, 2026-11-13)",
+      "source": "local"
+    },
+    "driver": {
+      "component": "driver",
+      "ref": "dragonflyoss/client@sha256:d942d337b7c6605b5df451d445ade7d5e45b325db75ed62c8cb07998b3c93d04",
+      "pinned": "dfperf-driver:d942d337b7c6-35fbaf237836",
+      "image_id": "sha256:74c7ae6327e49d377dfbaa5bc739490085e62ed015590e3e5f343048770d913e",
+      "repo_digests": null,
+      "platform": "linux/arm64",
+      "version": "dfget 1.5.14 (8887c145f, 2026-11-13)",
+      "source": "derived"
+    },
+    "overlays": []
+  },
+  "support_images": [
+    {
+      "component": "tools-base",
+      "ref": "alpine:3.20",
+      "pinned": "alpine@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+      "image_id": "sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+      "repo_digests": [
+        "alpine@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc"
+      ],
+      "registry_digest": "sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+      "platform": "linux/arm64",
+      "source": "local"
+    },
+    {
+      "component": "tools",
+      "ref": "alpine@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+      "pinned": "dfperf-tools:d9e853e87e55-35fbaf237836",
+      "image_id": "sha256:d49b41630ba9bfd2d4fe7c1d40e3b7094f26d7c70a2a7d1c9dbc9541c299a9bb",
+      "repo_digests": null,
+      "platform": "linux/arm64",
+      "source": "derived"
+    },
+    {
+      "component": "origin",
+      "ref": "nginx:stable-alpine",
+      "pinned": "nginx@sha256:47928bf67eb62a1863cb08d9ecb52d3e704304ba614eaee17884204677702951",
+      "image_id": "sha256:47928bf67eb62a1863cb08d9ecb52d3e704304ba614eaee17884204677702951",
+      "repo_digests": [
+        "nginx@sha256:47928bf67eb62a1863cb08d9ecb52d3e704304ba614eaee17884204677702951"
+      ],
+      "registry_digest": "sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3",
+      "platform": "linux/arm64",
+      "source": "local"
+    }
+  ],
+  "host": {
+    "hostname": "mini-24.local",
+    "os": "darwin",
+    "kernel": "Darwin 25.6.0",
+    "arch": "arm64",
+    "cpus": 10,
+    "memory_bytes": 34359738368,
+    "docker_version": "29.4.0",
+    "compose_version": "5.1.2",
+    "docker_os": "OrbStack",
+    "docker_kernel": "7.0.5-orbstack-00330-ge3df4e19b0a0-dirty",
+    "docker_cpus": 10,
+    "docker_memory_bytes": 16808173568,
+    "storage_driver": "overlayfs",
+    "runtime": "runc",
+    "baseline_eligible": false,
+    "classification": "orbstack",
+    "note": "orbstack engine on darwin (VM-backed, Docker-Desktop-class); results are non-baseline functional smoke data"
+  },
+  "non_baseline": true,
+  "block_order": [
+    "01-baseline-b1"
+  ],
+  "fixtures": {
+    "schema": "dfperf/v1",
+    "volume": "dfperf-fixtures-6a9efa261473012c",
+    "spec_hash": "6a9efa261473012c",
+    "seed": "dfperf-v1",
+    "generator": "chacha8-sha256seed-v1",
+    "files": [
+      {
+        "name": "f-4mib.bin",
+        "path": "/files/f-4mib.bin",
+        "size": 4194304,
+        "sha256": "fb58ca7435e47c6d1e15ccb591a40eafd2e09c2b4b66d7f1f8633472a77d9c59"
+      },
+      {
+        "name": "f-64mib.bin",
+        "path": "/files/f-64mib.bin",
+        "size": 67108864,
+        "sha256": "f78c64d15e905aa13ffb69eb923594e400db3c57715d08c426d070b6dfb79abc"
+      }
+    ]
+  },
+  "git_commit": "df6a69338ed5",
+  "git_dirty": true,
+  "started_at": "2026-11-21T02:59:24.530176Z",
+  "finished_at": "2026-11-21T03:00:15.177752Z",
+  "status": "finished",
+  "exit_code": 0,
+  "verdict": "PASS"
+}

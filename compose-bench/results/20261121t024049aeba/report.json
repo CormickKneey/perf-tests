@@ -1,0 +1,73 @@
+{
+  "schema": "dfperf/v1",
+  "run": "20261121t024049aeba",
+  "mode": "smoke",
+  "profile": "file-3peers",
+  "generated_at": "2026-11-21T02:42:14.171213Z",
+  "verdict": "INVALID",
+  "exit_code": 3,
+  "reasons": [
+    "aborted after block 01-baseline-b1 (invalid)",
+    "block 01-baseline-b1 is invalid: seed-announced: after 16 attempts: client went back-to-source (metric 4194304 bytes, origin 4194304 bytes): seed peer not announced or not used",
+    "no successful measured samples"
+  ],
+  "non_baseline": true,
+  "policy": {
+    "alpha": 0.05,
+    "metric": "duration_ms",
+    "regression_threshold": 0.1,
+    "min_abs_delta_ms": 5,
+    "min_samples": 8,
+    "min_blocks": 4,
+    "max_failure_rate": 0.01,
+    "bootstrap": {
+      "level": 0.95,
+      "iterations": 2000,
+      "seed": 20261121
+    }
+  },
+  "variants": {
+    "baseline": {
+      "blocks": 1,
+      "valid_blocks": 0,
+      "measured": 0,
+      "failures": 0,
+      "failure_rate": 0
+    }
+  },
+  "blocks": [
+    {
+      "id": "01-baseline-b1",
+      "variant": "baseline",
+      "index": 1,
+      "order": 1,
+      "status": "invalid",
+      "reasons": [
+        "seed-announced: after 16 attempts: client went back-to-source (metric 4194304 bytes, origin 4194304 bytes): seed peer not announced or not used"
+      ],
+      "samples": 0,
+      "failures": 0,
+      "checks": [
+        {
+          "name": "fixtures-manifest",
+          "ok": true,
+          "required": true,
+          "detail": "2 files, spec 6a9efa261473012c"
+        },
+        {
+          "name": "drivers-and-metrics-ready",
+          "ok": true,
+          "required": true,
+          "detail": "4 drivers, 5 metrics endpoints, dfget 1.5.14 (8887c145f, 2026-11-13)"
+        },
+        {
+          "name": "seed-announced",
+          "ok": false,
+          "required": true,
+          "detail": "after 16 attempts: client went back-to-source (metric 4194304 bytes, origin 4194304 bytes): seed peer not announced or not used"
+        }
+      ]
+    }
+  ],
+  "groups": []
+}

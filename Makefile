@@ -205,3 +205,17 @@ help:
 	@echo "make test                                   run unit tests"
 	@echo "make test-race                              run unit tests with race detector"
 	@echo "make clean                                  clean"
+	@echo "make compose-bench-test                     run compose-bench unit tests"
+	@echo "make compose-bench-test-race                run compose-bench unit tests with race detector"
+
+# Run compose-bench Go unit tests (nested module).
+compose-bench-test:
+	@echo "Begin to run compose-bench unit tests."
+	@cd compose-bench && go test -mod=readonly -count=1 ./...
+.PHONY: compose-bench-test
+
+# Run compose-bench Go unit tests with the race detector.
+compose-bench-test-race:
+	@echo "Begin to run compose-bench unit tests with race detector."
+	@cd compose-bench && go test -race -mod=readonly -count=1 ./...
+.PHONY: compose-bench-test-race

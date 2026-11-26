@@ -1,0 +1,79 @@
+# dfperf dfdaemon template shared by seed-client and client-N
+# (rendered by `dfbench compose render`).
+# Placeholders: __HOST_IP__ __HOSTNAME__ __SEED_PEER_ENABLE__ __SEED_PEER_TYPE__.
+# host.ip is an IpAddr in dragonfly-client-config (no hostnames), so every
+# peer gets a fixed IP on the dfperf network.
+console: true
+
+log:
+  level: info
+
+host:
+  idc: ''
+  location: ''
+  hostname: __HOSTNAME__
+  ip: __HOST_IP__
+
+server:
+  pluginDir: /var/lib/dragonfly/plugins/dfdaemon/
+  cacheDir: /var/cache/dragonfly/dfdaemon/
+
+download:
+  protocol: tcp
+  server:
+    socketPath: /var/run/dragonfly/dfdaemon.sock
+  bandwidthLimit: 50GB
+  backToSourceBandwidthLimit: 50GB
+  pieceTimeout: 40s
+  concurrentPieceCount: 10
+
+upload:
+  server:
+    port: 4000
+  disableShared: false
+  bandwidthLimit: 50GB
+
+scheduler:
+  announceInterval: 10s
+  scheduleTimeout: 3h
+  maxScheduleCount: 5
+  enableBackToSource: true
+
+seedPeer:
+  enable: __SEED_PEER_ENABLE__
+  type: __SEED_PEER_TYPE__
+
+dynconfig:
+  refreshInterval: 1m
+
+storage:
+  server:
+    tcpPort: 4005
+    quicPort: 4006
+  dir: /var/lib/dragonfly/
+  # Every block uses fresh named volumes; nothing should survive a restart.
+  keep: false
+  writeBufferSize: 131072
+  readBufferSize: 131072
+
+# Fixed GC configuration: GC must never evict benchmark tasks inside a block.
+gc:
+  interval: 3600s
+  policy:
+    taskTTL: 86400s
+    distHighThresholdPercent: 95
+    distLowThresholdPercent: 90
+
+proxy:
+  server:
+    port: 4001
+  rules:
+    - regex: 'blobs/sha256.*'
+  disableBackToSource: false
+  prefetch: false
+  readBufferSize: 32768
+
+metrics:
+  server:
+    ip: 0.0.0.0
+    port: 4002

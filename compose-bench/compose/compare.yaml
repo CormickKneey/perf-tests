@@ -1,0 +1,25 @@
+# Offline comparison policy used by `dfbench compare` (and the `compare`
+# service of the tools profile). One comparison group = (cache state, file).
+# The unit of analysis is a measured dfget download (role=measure); samples
+# from all blocks of a variant are pooled, blocks are ABBA-interleaved.
+
+# Two-sided Mann–Whitney U, Holm-corrected across all groups.
+alpha: 0.05
+# Primary metric (lower is better). Throughput is derived from it.
+metric: duration_ms
+# A regression needs significance AND a practical effect: candidate median
+# slower than baseline median by more than this fraction ...
+regression_threshold: 0.10
+# ... and by more than this many milliseconds (guards ms-scale local hits).
+min_abs_delta_ms: 5
+# Fewer measured samples per variant and group -> INCONCLUSIVE.
+min_samples: 8
+# Minimum number of valid blocks per variant (SPEC: ABBA, >= 4 each).
+min_blocks: 4
+# perf-tests rule: download failure rate must stay below 1%.
+max_failure_rate: 0.01
+# Bootstrap CI of median(candidate)/median(baseline), informational.
+bootstrap:
+  level: 0.95
+  iterations: 2000
+  seed: 20261121

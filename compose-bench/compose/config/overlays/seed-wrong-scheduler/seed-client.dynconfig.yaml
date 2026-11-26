@@ -1,0 +1,4 @@
+# Deliberately broken: the seed-client points at a scheduler address where
+# nothing listens, so it can never announce itself. Expected exit code: 3.
+scheduler:
+  addrs: ['__NET_PREFIX__.99:8002']
