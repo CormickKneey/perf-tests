@@ -37,17 +37,22 @@ Run the commands above from this `compose-bench/` directory. Exit codes: `0` pas
 | `docs/results-store.md` | SQLite ingest and optional Supabase publish |
 | `results/<run>/` | Local runs; this tree includes a few published sample documents only |
 | `dashboard/` | Vite + React dashboard (light default, English/Chinese, theme toggle) |
-| `schemas/sql/`, `supabase/migrations/` | SQLite + Postgres schema for the results store |
+| `schemas/sql/`, `supabase/migrations/` | SQLite file plus Postgres schema `dfperf` for the results store |
 | `scripts/publish-results.sh` | Ingest a run into SQLite; upload to Supabase when secrets are set |
 
 After `smoke`, `run` or `compare`, `compose-bench.sh` calls
 `scripts/publish-results.sh` on the new `results/<run-id>/`. That writes
 `results/dfperf.db` and, if `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`
 are set, upserts the same row to Supabase. A publish failure is logged and
-does not change the benchmark exit code. The dashboard uses
-`VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` when both are set, and
-otherwise falls back to local `./data` (or `dfperf.db` in `npm run dev`).
-Never put a `service_role` key in the dashboard or the repository.
+does not change the benchmark exit code. Remote tables live in Postgres
+schema `dfperf` (not `public`). SQLite stays a single local file with no
+schema. The dashboard uses `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`
+when both are set, and otherwise falls back to local `./data` (or
+`dfperf.db` in `npm run dev`). GitHub Actions workflow
+`dashboard-pages.yml` publishes `dashboard/dist` to GitHub Pages and reads
+those two values from Actions secrets of the same names. Compose-bench CI
+still builds the dashboard when the secrets are unset. Never put a
+`service_role` key in the dashboard, the workflow, or the repository.
 See [docs/results-store.md](docs/results-store.md).
 
 Results from macOS (OrbStack / Docker Desktop) are marked **non-baseline**;

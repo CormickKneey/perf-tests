@@ -36,7 +36,22 @@ jobs:
   publish-and-dashboard:
     name: Results store and dashboard tests
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+    services:
+      # Ephemeral database for the dfperf schema migration test. Not a Supabase project.
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: dfperf_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d dfperf_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -46,9 +61,17 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
       - name: Publish-results tests
-        run: python3 scripts/test_publish_results.py
         working-directory: compose-bench
+        env:
+          # Dummy password for the postgres service above, not a project secret.
+          DFPERF_TEST_PG_DSN: postgresql://postgres:postgres@127.0.0.1:5432/dfperf_test
+        run: |
+          python3 scripts/test_publish_results.py
+          python3 scripts/test_dfperf_schema.py
 
       - name: Set up Node
         uses: actions/setup-node@v4

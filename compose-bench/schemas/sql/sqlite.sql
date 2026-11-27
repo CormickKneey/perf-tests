@@ -1,4 +1,6 @@
 -- Local results store for d7y-ci-infra (results/dfperf.db).
+-- Single SQLite file with unqualified table names. There is no Postgres schema
+-- here; the remote store uses schema dfperf.
 -- Structured columns power the dashboard list; full documents stay in * _json
 -- text columns (JSON). Artifact bodies are not stored here.
 

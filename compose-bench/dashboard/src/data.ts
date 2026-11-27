@@ -165,6 +165,10 @@ export type Load<T> = { state: "loading" } | { state: "error"; error: string } |
 
 const cache = new Map<string, Promise<unknown>>();
 
+// Postgres schema for runs/artifacts. Same switch as supabase-js
+// `db: { schema: "dfperf" }`: Accept-Profile for reads, Content-Profile for writes.
+export const SUPABASE_DB_SCHEMA = "dfperf";
+
 /** Public Supabase URL + anon/publishable key. Not a user login. */
 export function supabaseBrowserConfig(): { url: string; key: string } | null {
   const url = (import.meta.env.VITE_SUPABASE_URL ?? "").trim().replace(/\/$/, "");
@@ -206,6 +210,8 @@ async function supabaseFetch(pathAndQuery: string, init?: RequestInit): Promise<
       Authorization: `Bearer ${cfg.key}`,
       Accept: "application/json",
       ...(init?.headers ?? {}),
+      "Accept-Profile": SUPABASE_DB_SCHEMA,
+      "Content-Profile": SUPABASE_DB_SCHEMA,
     },
   });
   if (!r.ok) throw new Error(`supabase ${pathAndQuery}: HTTP ${r.status}`);

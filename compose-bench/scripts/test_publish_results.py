@@ -111,8 +111,8 @@ class IngestTests(unittest.TestCase):
                 return
 
             def do_GET(self):
-                hits.append(("GET", self.path))
-                body = b'{"code":"PGRST205","message":"Could not find the table public.runs"}'
+                hits.append(("GET", self.path, self.headers.get("Accept-Profile"), self.headers.get("Content-Profile")))
+                body = b'{"code":"PGRST205","message":"Could not find the table dfperf.runs in the schema cache"}'
                 self.send_response(404)
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
@@ -135,8 +135,9 @@ class IngestTests(unittest.TestCase):
             os.environ["SUPABASE_SERVICE_ROLE_KEY"] = "test-service-role-not-real"
             rc = pr.main([str(RUN_DIR), "--db", str(self.db)])
             self.assertEqual(rc, 1)
-            self.assertTrue(any(m == "GET" and "/rest/v1/runs" in path for m, path in hits))
-            self.assertFalse(any(m == "POST" for m, _ in hits), "must not POST when the table is missing")
+            self.assertTrue(any(m == "GET" and "/rest/v1/runs" in path for m, path, _ap, _cp in hits))
+            self.assertTrue(all(ap == "dfperf" and cp == "dfperf" for m, _path, ap, cp in hits if m == "GET"))
+            self.assertFalse(any(m == "POST" for m, *_rest in hits), "must not POST when the table is missing")
         finally:
             server.shutdown()
             server.server_close()
@@ -150,6 +151,60 @@ class IngestTests(unittest.TestCase):
         n = conn.execute("SELECT count(*) FROM runs WHERE id = ?", (RUN_ID,)).fetchone()[0]
         conn.close()
         self.assertEqual(n, 1, "local sqlite ingest should succeed even if remote fails")
+
+    def test_remote_upsert_targets_dfperf_schema(self):
+        seen = []
+
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self, *_args, **_kwargs):
+                return
+
+            def do_GET(self):
+                seen.append((self.command, self.path, self.headers.get("Accept-Profile"), self.headers.get("Content-Profile")))
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(b"[]")
+
+            def do_POST(self):
+                length = int(self.headers.get("Content-Length") or 0)
+                self.rfile.read(length)
+                seen.append((self.command, self.path, self.headers.get("Accept-Profile"), self.headers.get("Content-Profile")))
+                self.send_response(201)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(b"{}")
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        buf = io.StringIO()
+        old = sys.stderr
+        sys.stderr = buf
+        try:
+            host, port = server.server_address[:2]
+            os.environ["SUPABASE_URL"] = f"http://127.0.0.1:{port}"
+            os.environ["SUPABASE_SERVICE_ROLE_KEY"] = "test-service-role-not-real"
+            rc = pr.main([str(RUN_DIR), "--db", str(self.db)])
+        finally:
+            sys.stderr = old
+            server.shutdown()
+            server.server_close()
+
+        self.assertEqual(rc, 0, buf.getvalue())
+        log = buf.getvalue()
+        self.assertIn("supabase schema dfperf", log)
+        self.assertNotIn("test-service-role-not-real", log)
+
+        rest = [(m, path, ap, cp) for m, path, ap, cp in seen if path.startswith("/rest/v1/")]
+        self.assertTrue(any(m == "GET" and path.startswith("/rest/v1/runs") for m, path, _ap, _cp in rest))
+        self.assertTrue(any(m == "POST" and path.startswith("/rest/v1/runs") for m, path, _ap, _cp in rest))
+        self.assertTrue(any(m == "POST" and path.startswith("/rest/v1/artifacts") for m, path, _ap, _cp in rest))
+        self.assertTrue(all(ap == "dfperf" and cp == "dfperf" for _m, _path, ap, cp in rest))
+
+        storage = [item for item in seen if "/storage/v1/object/" in item[1]]
+        self.assertTrue(storage, "report.md should still upload to the storage bucket")
+        self.assertTrue(all("/dfperf-artifacts/" in path for _m, path, _ap, _cp in storage))
 
     def test_dry_run_skips_writes(self):
         os.environ["SUPABASE_URL"] = "http://127.0.0.1:1"
