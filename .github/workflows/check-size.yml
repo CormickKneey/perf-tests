@@ -9,6 +9,13 @@ on:
 env:
   GO_VERSION: '1.21'
 
+# The default token can read contents only. lfs-warning looks up or creates
+# the warning label, lists pull request files, and may comment or label.
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   check_size:
     name: Check Size

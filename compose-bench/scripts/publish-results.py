@@ -25,6 +25,11 @@ from pathlib import Path
 from typing import Any
 
 SCHEMA_DIR = Path(__file__).resolve().parent.parent / "schemas" / "sql"
+# Remote tables live in Postgres schema dfperf, not public. PostgREST selects
+# it with Accept-Profile (reads) and Content-Profile (writes), the same switch
+# as supabase-js `db: { schema: "dfperf" }`. The project Data API must expose
+# dfperf. SQLite ingest does not use this name.
+DB_SCHEMA = "dfperf"
 DEFAULT_BUCKET = "dfperf-artifacts"
 HOST_SUMMARY_KEYS = (
     "hostname",
@@ -313,6 +318,8 @@ def http_json(
         "apikey": key,
         "Authorization": f"Bearer {key}",
         "Accept": "application/json",
+        "Accept-Profile": DB_SCHEMA,
+        "Content-Profile": DB_SCHEMA,
     }
     data = None
     if payload is not None:
@@ -341,8 +348,17 @@ def redact(text: str, key: str) -> str:
 def explain_http_error(path: str, status: int, body: bytes, key: str) -> str:
     snippet = redact(body.decode("utf-8", errors="replace")[:500], key)
     hint = ""
-    if status in (404, 406) or "PGRST205" in snippet or "Could not find the table" in snippet:
-        hint = " (schema may not be applied; see schemas/sql/postgres.sql)"
+    if (
+        status in (404, 406)
+        or "PGRST106" in snippet
+        or "PGRST205" in snippet
+        or "Could not find the table" in snippet
+        or "schema must be one of" in snippet
+    ):
+        hint = (
+            " (schema dfperf may be missing or not exposed on the Data API;"
+            " see docs/results-store.md)"
+        )
     elif status in (401, 403):
         hint = " (service role key rejected)"
     return f"supabase {path} HTTP {status}{hint}: {snippet}"
@@ -373,7 +389,7 @@ def upsert_remote(url: str, key: str, row: dict[str, Any], artifacts: list[dict[
     ensure_remote_table(url, key)
     payload = remote_payload(row)
     if dry_run:
-        eprint(f"publish-results: dry-run; would upsert run {row['id']} to {url}")
+        eprint(f"publish-results: dry-run; would upsert run {row['id']} to {url} schema {DB_SCHEMA}")
         return
     status, body, _ = http_json(
         "POST",
@@ -490,7 +506,7 @@ def main(argv: list[str] | None = None) -> int:
         eprint(f"publish-results: {err}")
         return 1
     if not args.dry_run:
-        eprint(f"publish-results: upserted run {row['id']} to supabase")
+        eprint(f"publish-results: upserted run {row['id']} to supabase schema {DB_SCHEMA}")
     return 0
 
 
